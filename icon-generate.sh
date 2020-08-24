@@ -3,210 +3,118 @@
 # reference:
 # https://developer.apple.com/library/ios/qa/qa1686/_index.html
 
-function create_appiconset {
-  if [[ -e "$(destination)/AppIcon.appiconset" ]]; then
-    echo "AppIcon.appiconset already exists"
-    exit 1
-  else
-    mkdir "$(destination)/AppIcon.appiconset"
-  fi
+function createDir() {
+    mkdir -p "$(destination)/AppIcons"
+    if [[ -e "$(destination)/AppIcons/AppIcon.appiconset" ]]; then
+        echo "AppIcon.appiconset already exists"
+    else
+        mkdir "$(destination)/AppIcons/AppIcon.appiconset"
+    fi
+    if [[ -e "$(destination)/AppIcons/android" ]]; then
+        echo "android already exists"
+    else
+        mkdir "$(destination)/AppIcons/android"
+    fi
+    mkdir -p "$(destination)/AppIcons/android/mipmap-hdpi"
+    mkdir -p "$(destination)/AppIcons/android/mipmap-mdpi"
+    mkdir -p "$(destination)/AppIcons/android/mipmap-xhdpi"
+    mkdir -p "$(destination)/AppIcons/android/mipmap-xxhdpi"
+    mkdir -p "$(destination)/AppIcons/android/mipmap-xxxhdpi"
+
 }
 
+function create_ios_json() {
+    cat <<EOT >>"$(destination)/AppIcons/AppIcon.appiconset/Contents.json"
+{"images":[{"size":"60x60","expected-size":"180","filename":"180.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"iphone","scale":"3x"},{"size":"40x40","expected-size":"80","filename":"80.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"iphone","scale":"2x"},{"size":"40x40","expected-size":"120","filename":"120.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"iphone","scale":"3x"},{"size":"60x60","expected-size":"120","filename":"120.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"iphone","scale":"2x"},{"size":"57x57","expected-size":"57","filename":"57.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"iphone","scale":"1x"},{"size":"29x29","expected-size":"58","filename":"58.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"iphone","scale":"2x"},{"size":"29x29","expected-size":"29","filename":"29.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"iphone","scale":"1x"},{"size":"29x29","expected-size":"87","filename":"87.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"iphone","scale":"3x"},{"size":"57x57","expected-size":"114","filename":"114.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"iphone","scale":"2x"},{"size":"20x20","expected-size":"40","filename":"40.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"iphone","scale":"2x"},{"size":"20x20","expected-size":"60","filename":"60.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"iphone","scale":"3x"},{"size":"1024x1024","filename":"1024.png","expected-size":"1024","idiom":"ios-marketing","folder":"Assets.xcassets/AppIcon.appiconset/","scale":"1x"},{"size":"40x40","expected-size":"80","filename":"80.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"ipad","scale":"2x"},{"size":"72x72","expected-size":"72","filename":"72.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"ipad","scale":"1x"},{"size":"76x76","expected-size":"152","filename":"152.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"ipad","scale":"2x"},{"size":"50x50","expected-size":"100","filename":"100.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"ipad","scale":"2x"},{"size":"29x29","expected-size":"58","filename":"58.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"ipad","scale":"2x"},{"size":"76x76","expected-size":"76","filename":"76.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"ipad","scale":"1x"},{"size":"29x29","expected-size":"29","filename":"29.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"ipad","scale":"1x"},{"size":"50x50","expected-size":"50","filename":"50.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"ipad","scale":"1x"},{"size":"72x72","expected-size":"144","filename":"144.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"ipad","scale":"2x"},{"size":"40x40","expected-size":"40","filename":"40.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"ipad","scale":"1x"},{"size":"83.5x83.5","expected-size":"167","filename":"167.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"ipad","scale":"2x"},{"size":"20x20","expected-size":"20","filename":"20.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"ipad","scale":"1x"},{"size":"20x20","expected-size":"40","filename":"40.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"ipad","scale":"2x"},{"idiom":"watch","filename":"172.png","folder":"Assets.xcassets/AppIcon.appiconset/","subtype":"38mm","scale":"2x","size":"86x86","expected-size":"172","role":"quickLook"},{"idiom":"watch","filename":"80.png","folder":"Assets.xcassets/AppIcon.appiconset/","subtype":"38mm","scale":"2x","size":"40x40","expected-size":"80","role":"appLauncher"},{"idiom":"watch","filename":"88.png","folder":"Assets.xcassets/AppIcon.appiconset/","subtype":"40mm","scale":"2x","size":"44x44","expected-size":"88","role":"appLauncher"},{"idiom":"watch","filename":"100.png","folder":"Assets.xcassets/AppIcon.appiconset/","subtype":"44mm","scale":"2x","size":"50x50","expected-size":"100","role":"appLauncher"},{"idiom":"watch","filename":"196.png","folder":"Assets.xcassets/AppIcon.appiconset/","subtype":"42mm","scale":"2x","size":"98x98","expected-size":"196","role":"quickLook"},{"idiom":"watch","filename":"216.png","folder":"Assets.xcassets/AppIcon.appiconset/","subtype":"44mm","scale":"2x","size":"108x108","expected-size":"216","role":"quickLook"},{"idiom":"watch","filename":"48.png","folder":"Assets.xcassets/AppIcon.appiconset/","subtype":"38mm","scale":"2x","size":"24x24","expected-size":"48","role":"notificationCenter"},{"idiom":"watch","filename":"55.png","folder":"Assets.xcassets/AppIcon.appiconset/","subtype":"42mm","scale":"2x","size":"27.5x27.5","expected-size":"55","role":"notificationCenter"},{"size":"29x29","expected-size":"87","filename":"87.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"watch","role":"companionSettings","scale":"3x"},{"size":"29x29","expected-size":"58","filename":"58.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"watch","role":"companionSettings","scale":"2x"},{"size":"1024x1024","expected-size":"1024","filename":"1024.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"watch-marketing","scale":"1x"},{"size":"128x128","expected-size":"128","filename":"128.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"mac","scale":"1x"},{"size":"256x256","expected-size":"256","filename":"256.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"mac","scale":"1x"},{"size":"128x128","expected-size":"256","filename":"256.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"mac","scale":"2x"},{"size":"256x256","expected-size":"512","filename":"512.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"mac","scale":"2x"},{"size":"32x32","expected-size":"32","filename":"32.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"mac","scale":"1x"},{"size":"512x512","expected-size":"512","filename":"512.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"mac","scale":"1x"},{"size":"16x16","expected-size":"16","filename":"16.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"mac","scale":"1x"},{"size":"16x16","expected-size":"32","filename":"32.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"mac","scale":"2x"},{"size":"32x32","expected-size":"64","filename":"64.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"mac","scale":"2x"},{"size":"512x512","expected-size":"1024","filename":"1024.png","folder":"Assets.xcassets/AppIcon.appiconset/","idiom":"mac","scale":"2x"}]}
 
-function create_contents_json {
-  cat <<EOT >> "$(destination)/AppIcon.appiconset/Contents.json"
-{
-  "images" : [
-    {
-      "idiom" : "iphone",
-      "size" : "20x20",
-      "filename" : "Icon-20@2x.png",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "iphone",
-      "size" : "20x20",
-      "filename" : "Icon-20@3x.png",
-      "scale" : "3x"
-    },
-    {
-      "idiom" : "iphone",
-      "size" : "29x29",
-      "filename" : "Icon-Small@2x.png",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "iphone",
-      "size" : "29x29",
-      "filename" : "Icon-Small@3x.png",
-      "scale" : "3x"
-    },
-    {
-      "idiom" : "iphone",
-      "size" : "40x40",
-      "filename" : "Icon-Small-40@2x.png",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "iphone",
-      "size" : "40x40",
-      "filename" : "Icon-Small-40@3x.png",
-      "scale" : "3x"
-    },
-    {
-      "idiom" : "iphone",
-      "size" : "60x60",
-      "filename" : "Icon-60@2x.png",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "iphone",
-      "size" : "60x60",
-      "filename" : "Icon-60@3x.png",
-      "scale" : "3x"
-    },
-    {
-      "idiom" : "ipad",
-      "size" : "29x29",
-      "filename" : "Icon-Small.png",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "ipad",
-      "size" : "20x20",
-      "filename" : "Icon-20.png",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "ipad",
-      "size" : "20x20",
-      "filename" : "Icon-20@2x.png",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "ipad",
-      "size" : "29x29",
-      "filename" : "Icon-Small@2x.png",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "ipad",
-      "size" : "40x40",
-      "filename" : "Icon-Small-40.png",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "ipad",
-      "size" : "40x40",
-      "filename" : "Icon-Small-40@2x.png",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "ipad",
-      "size" : "76x76",
-      "filename" : "Icon-76.png",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "ipad",
-      "size" : "76x76",
-      "filename" : "Icon-76@2x.png",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "ipad",
-      "size" : "83.5x83.5",
-      "filename" : "Icon-83_5@2x.png",
-      "scale" : "2x"
-    },
-    {
-    "idiom" : "ios-marketing",
-    "size" : "1024x1024",
-    "filename" : "Icon-1024.png",
-    "scale" : "1x"
-    }
-  ],
-  "info" : {
-    "version" : 1,
-    "author" : "xcode"
-  }
-}
 EOT
 }
 
-
-function create_icons {
-  image="$1"
-
-  # Notification
-  create_icon "$image" "20"  "Icon-20"
-  create_icon "$image" "40"  "Icon-20@2x"
-  create_icon "$image" "60"  "Icon-20@3x"
-
-  # Settings
-  create_icon "$image" "29"  "Icon-Small"
-  create_icon "$image" "58"  "Icon-Small@2x"
-  create_icon "$image" "87"  "Icon-Small@3x"
-
-  # Spotlight
-  create_icon "$image" "40"  "Icon-Small-40"
-  create_icon "$image" "80"  "Icon-Small-40@2x"
-  create_icon "$image" "120" "Icon-Small-40@3x"
-
-  # Home screen (iPhone)
-  create_icon "$image" "120" "Icon-60@2x"
-  create_icon "$image" "180" "Icon-60@3x"
-
-  # Home screen (iPad)
-  create_icon "$image" "76"  "Icon-76"
-  create_icon "$image" "152" "Icon-76@2x"
-
-  #ipad Pro
-  create_icon "$image" "167" "Icon-83_5@2x"
-
-  create_icon "$image" "1024"  "Icon-1024"
-}
-
-
-function create_icon {
-  image="$1"
-  size="$2"
-  name="$3"
-
-  sips -s format png -z "$size" "$size" "$image" --out "$(destination)/AppIcon.appiconset/${name}.png"
-}
-
-
-function optimize_icons {
-  if hash imageoptim 2>/dev/null; then
-    imageoptim --directory "$(destination)/AppIcon.appiconset"
-  else
-    echo
-    echo "imageoptim-cli is not installed. Icons won't be optimized."
-    echo "To install, run:"
-    echo "  $ npm install -g imageoptim-cli"
-  fi
-}
-
-
-function destination {
-  pwd
-}
-
-
-
-
-function run {
-  if [[ -z "$1" ]]; then
-    echo "usage: ./ios-icon-generator [IMAGE]"
-  else
+function create_ios_icons() {
     image="$1"
 
-    create_appiconset
-    create_contents_json
-    create_icons "$image"
-    optimize_icons
-  fi
+    # Notification
+
+    create_icon "$image" "16" "16"
+    create_icon "$image" "20" "20"
+    create_icon "$image" "29" "29"
+    create_icon "$image" "32" "32"
+    create_icon "$image" "40" "40"
+    create_icon "$image" "48" "48"
+    create_icon "$image" "50" "50"
+    create_icon "$image" "55" "55"
+    create_icon "$image" "57" "57"
+    create_icon "$image" "58" "58"
+    create_icon "$image" "60" "60"
+    create_icon "$image" "64" "64"
+    create_icon "$image" "72" "72"
+    create_icon "$image" "76" "76"
+    create_icon "$image" "80" "80"
+    create_icon "$image" "87" "87"
+    create_icon "$image" "88" "88"
+    create_icon "$image" "100" "100"
+    create_icon "$image" "114" "114"
+    create_icon "$image" "120" "120"
+    create_icon "$image" "128" "128"
+    create_icon "$image" "144" "144"
+    create_icon "$image" "152" "152"
+    create_icon "$image" "167" "167"
+    create_icon "$image" "172" "172"
+    create_icon "$image" "180" "180"
+    create_icon "$image" "196" "196"
+    create_icon "$image" "216" "216"
+    create_icon "$image" "256" "256"
+    create_icon "$image" "512" "512"
+    create_icon "$image" "1024" "1024"
+}
+
+function create_android_icons() {
+    image="$1"
+    sips -s format png -z "72" "72" "$image" --out "$(destination)/AppIcons/android/mipmap-hdpi/ic_launcher.png"
+    sips -s format png -z "48" "48" "$image" --out "$(destination)/AppIcons/android/mipmap-mdpi/ic_launcher.png"
+    sips -s format png -z "96" "96" "$image" --out "$(destination)/AppIcons/android/mipmap-xhdpi/ic_launcher.png"
+    sips -s format png -z "144" "144" "$image" --out "$(destination)/AppIcons/android/mipmap-xxhdpi/ic_launcher.png"
+    sips -s format png -z "192" "192" "$image" --out "$(destination)/AppIcons/android/mipmap-xxxhdpi/ic_launcher.png"
+}
+
+function create_icon() {
+    image="$1"
+    size="$2"
+    name="$3"
+
+    sips -s format png -z "$size" "$size" "$image" --out "$(destination)/AppIcons/AppIcon.appiconset/${name}.png"
+
+}
+
+function optimize_icons() {
+    if hash imageoptim 2>/dev/null; then
+        imageoptim --directory "$(destination)/AppIcons"
+    else
+        echo
+        echo "imageoptim-cli is not installed. Icons won't be optimized."
+        echo "To install, run:"
+        echo "  $ npm install -g imageoptim-cli"
+    fi
+}
+
+function destination() {
+    pwd
+}
+
+function run() {
+    if [[ -z "$1" ]]; then
+        echo "usage: ./ios-icon-generator [IMAGE]"
+    else
+        image="$1"
+
+        createDir
+        create_ios_json
+        create_ios_icons "$image"
+        sips -s format png -z "1024" "1024" "$image" --out "$(destination)/AppIcons/appstore.png"
+        sips -s format png -z "512" "512" "$image" --out "$(destination)/AppIcons/playstore.png"
+        create_android_icons "$image"
+        optimize_icons
+    fi
 }
 
 (run $@)
