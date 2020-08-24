@@ -1,6 +1,6 @@
 # ios-app-icon-generate
-ios 和android app icon 生成脚本
-给一张1024分辨率的图，生成ios和android的各种分辨率的App Icon图片
+ios 和android app icon 生成脚本   
+给一张1024分辨率的图，生成ios和android的各种分辨率的App Icon图片   
 类似https://appicon.co/ 效果
 
 ## 运行
